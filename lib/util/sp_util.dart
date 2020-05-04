@@ -110,7 +110,8 @@ class SpUtil {
   }
 
   /// get string list.
-  static List<String> getStringList(String key, {List<String> defValue: const []}) {
+  static List<String> getStringList(String key,
+      {List<String> defValue: const []}) {
     if (_prefs == null) return defValue;
     return _prefs.getStringList(key) ?? defValue;
   }

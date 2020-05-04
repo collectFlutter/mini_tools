@@ -1,7 +1,5 @@
 export 'date/date_util.dart';
 export 'date/time_format_util.dart';
-export 'log/log_util.dart';
-export 'net/http_util.dart';
 export 'num/decimal.dart';
 export 'num/money_util.dart';
 export 'num/num_util.dart';

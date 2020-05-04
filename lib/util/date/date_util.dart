@@ -92,7 +92,9 @@ class DateUtil {
 
   /// get DateTime By Milliseconds.
   static DateTime getDateTimeByMs(int milliseconds, {bool isUtc = false}) {
-    return milliseconds == null ? null : DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
+    return milliseconds == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
   }
 
   /// get DateMilliseconds By DateStr.
@@ -133,9 +135,13 @@ class DateUtil {
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
   static String getDateStrByMs(int milliseconds,
-      {DateFormat format = DateFormat.NORMAL, String dateSeparate, String timeSeparate, bool isUtc = false}) {
+      {DateFormat format = DateFormat.NORMAL,
+      String dateSeparate,
+      String timeSeparate,
+      bool isUtc = false}) {
     DateTime dateTime = getDateTimeByMs(milliseconds, isUtc: isUtc);
-    return getDateStrByDateTime(dateTime, format: format, dateSeparate: dateSeparate, timeSeparate: timeSeparate);
+    return getDateStrByDateTime(dateTime,
+        format: format, dateSeparate: dateSeparate, timeSeparate: timeSeparate);
   }
 
   /// get DateStr By DateTime.
@@ -144,7 +150,9 @@ class DateUtil {
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
   static String getDateStrByDateTime(DateTime dateTime,
-      {DateFormat format = DateFormat.NORMAL, String dateSeparate, String timeSeparate}) {
+      {DateFormat format = DateFormat.NORMAL,
+      String dateSeparate,
+      String timeSeparate}) {
     if (dateTime == null) return null;
     String dateStr = dateTime.toString();
     if (isZHFormat(format)) {
@@ -159,15 +167,21 @@ class DateUtil {
   /// time            time string.
   /// format          DateFormat type.
   ///timeSeparate    time separate.
-  static String formatZHDateTime(String time, DateFormat format, String timeSeparate) {
+  static String formatZHDateTime(
+      String time, DateFormat format, String timeSeparate) {
     time = convertToZHDateTimeString(time, timeSeparate);
     switch (format) {
       case DateFormat.ZH_NORMAL: //yyyy年MM月dd日 HH时mm分ss秒
-        time =
-            time.substring(0, "yyyy年MM月dd日 HH时mm分ss秒".length - (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
+        time = time.substring(
+            0,
+            "yyyy年MM月dd日 HH时mm分ss秒".length -
+                (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
       case DateFormat.ZH_YEAR_MONTH_DAY_HOUR_MINUTE: //yyyy年MM月dd日 HH时mm分
-        time = time.substring(0, "yyyy年MM月dd日 HH时mm分".length - (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
+        time = time.substring(
+            0,
+            "yyyy年MM月dd日 HH时mm分".length -
+                (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
       case DateFormat.ZH_YEAR_MONTH_DAY: //yyyy年MM月dd日
         time = time.substring(0, "yyyy年MM月dd日".length);
@@ -180,15 +194,21 @@ class DateUtil {
         break;
       case DateFormat.ZH_MONTH_DAY_HOUR_MINUTE: //MM月dd日 HH时mm分
         time = time.substring(
-            "yyyy年".length, "yyyy年MM月dd日 HH时mm分".length - (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
+            "yyyy年".length,
+            "yyyy年MM月dd日 HH时mm分".length -
+                (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
       case DateFormat.ZH_HOUR_MINUTE_SECOND: //HH时mm分ss秒
-        time = time.substring("yyyy年MM月dd日 ".length,
-            "yyyy年MM月dd日 HH时mm分ss秒".length - (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
+        time = time.substring(
+            "yyyy年MM月dd日 ".length,
+            "yyyy年MM月dd日 HH时mm分ss秒".length -
+                (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
       case DateFormat.ZH_HOUR_MINUTE: //HH时mm分
-        time = time.substring("yyyy年MM月dd日 ".length,
-            "yyyy年MM月dd日 HH时mm分".length - (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
+        time = time.substring(
+            "yyyy年MM月dd日 ".length,
+            "yyyy年MM月dd日 HH时mm分".length -
+                (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
       default:
         break;
@@ -201,7 +221,8 @@ class DateUtil {
   /// format          DateFormat type.
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
-  static String formatDateTime(String time, DateFormat format, String dateSeparate, String timeSeparate) {
+  static String formatDateTime(String time, DateFormat format,
+      String dateSeparate, String timeSeparate) {
     switch (format) {
       case DateFormat.NORMAL: //yyyy-MM-dd HH:mm:ss
         time = time.substring(0, "yyyy-MM-dd HH:mm:ss".length);
@@ -222,7 +243,8 @@ class DateUtil {
         time = time.substring("yyyy-".length, "yyyy-MM-dd HH:mm".length);
         break;
       case DateFormat.HOUR_MINUTE_SECOND: //HH:mm:ss
-        time = time.substring("yyyy-MM-dd ".length, "yyyy-MM-dd HH:mm:ss".length);
+        time =
+            time.substring("yyyy-MM-dd ".length, "yyyy-MM-dd HH:mm:ss".length);
         break;
       case DateFormat.HOUR_MINUTE: //HH:mm
         time = time.substring("yyyy-MM-dd ".length, "yyyy-MM-dd HH:mm".length);
@@ -264,7 +286,8 @@ class DateUtil {
   }
 
   /// date Time Separate.
-  static String dateTimeSeparate(String time, String dateSeparate, String timeSeparate) {
+  static String dateTimeSeparate(
+      String time, String dateSeparate, String timeSeparate) {
     if (dateSeparate != null) {
       time = time.replaceAll("-", dateSeparate);
     }
@@ -276,8 +299,10 @@ class DateUtil {
 
   /// format date by milliseconds.
   /// milliseconds 日期毫秒
-  static String formatDateMs(int milliseconds, {bool isUtc = false, String format}) {
-    return formatDate(getDateTimeByMs(milliseconds, isUtc: isUtc), format: format);
+  static String formatDateMs(int milliseconds,
+      {bool isUtc = false, String format}) {
+    return formatDate(getDateTimeByMs(milliseconds, isUtc: isUtc),
+        format: format);
   }
 
   /// format date by date str.
@@ -299,7 +324,8 @@ class DateUtil {
       if (format.contains("yyyy")) {
         format = format.replaceAll("yyyy", year);
       } else {
-        format = format.replaceAll("yy", year.substring(year.length - 2, year.length));
+        format = format.replaceAll(
+            "yy", year.substring(year.length - 2, year.length));
       }
     }
 
@@ -314,10 +340,12 @@ class DateUtil {
   }
 
   /// com format.
-  static String _comFormat(int value, String format, String single, String full) {
+  static String _comFormat(
+      int value, String format, String single, String full) {
     if (format.contains(single)) {
       if (format.contains(full)) {
-        format = format.replaceAll(full, value < 10 ? '0$value' : value.toString());
+        format =
+            format.replaceAll(full, value < 10 ? '0$value' : value.toString());
       } else {
         format = format.replaceAll(single, value.toString());
       }
@@ -414,7 +442,8 @@ class DateUtil {
   /// is yesterday by millis.
   /// 是否是昨天.
   static bool isYesterdayByMillis(int millis, int locMillis) {
-    return isYesterday(DateTime.fromMillisecondsSinceEpoch(millis), DateTime.fromMillisecondsSinceEpoch(locMillis));
+    return isYesterday(DateTime.fromMillisecondsSinceEpoch(millis),
+        DateTime.fromMillisecondsSinceEpoch(locMillis));
   }
 
   /// is yesterday by dateTime.
@@ -435,7 +464,8 @@ class DateUtil {
   /// get day of year.
   /// 在今年的第几天.
   static int getDayOfYearByMillis(int millis, {bool isUtc = false}) {
-    return getDayOfYear(DateTime.fromMillisecondsSinceEpoch(millis, isUtc: isUtc));
+    return getDayOfYear(
+        DateTime.fromMillisecondsSinceEpoch(millis, isUtc: isUtc));
   }
 
   /// get day of year.
@@ -456,7 +486,8 @@ class DateUtil {
   /// year is equal.
   /// 是否同年.
   static bool yearIsEqualByMillis(int millis, int locMillis) {
-    return yearIsEqual(DateTime.fromMillisecondsSinceEpoch(millis), DateTime.fromMillisecondsSinceEpoch(locMillis));
+    return yearIsEqual(DateTime.fromMillisecondsSinceEpoch(millis),
+        DateTime.fromMillisecondsSinceEpoch(locMillis));
   }
 
   /// year is equal.
@@ -469,7 +500,8 @@ class DateUtil {
   /// 是否是当天.
   static bool isToday(int milliseconds, {bool isUtc = false}) {
     if (milliseconds == null || milliseconds == 0) return false;
-    DateTime old = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
+    DateTime old =
+        DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
     DateTime now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
     return old.year == now.year && old.month == now.month && old.day == now.day;
   }
@@ -480,12 +512,16 @@ class DateUtil {
     if (milliseconds == null || milliseconds <= 0) {
       return false;
     }
-    DateTime _old = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
+    DateTime _old =
+        DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
     DateTime _now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
-    DateTime old = _now.millisecondsSinceEpoch > _old.millisecondsSinceEpoch ? _old : _now;
-    DateTime now = _now.millisecondsSinceEpoch > _old.millisecondsSinceEpoch ? _now : _old;
+    DateTime old =
+        _now.millisecondsSinceEpoch > _old.millisecondsSinceEpoch ? _old : _now;
+    DateTime now =
+        _now.millisecondsSinceEpoch > _old.millisecondsSinceEpoch ? _now : _old;
     return (now.weekday >= old.weekday) &&
-        (now.millisecondsSinceEpoch - old.millisecondsSinceEpoch <= 7 * 24 * 60 * 60 * 1000);
+        (now.millisecondsSinceEpoch - old.millisecondsSinceEpoch <=
+            7 * 24 * 60 * 60 * 1000);
   }
 
   /// 返回当前月份的自然月天数
@@ -493,7 +529,9 @@ class DateUtil {
     if (dateTime == null && (year == null || month == null)) {
       return 30;
     }
-    return DateTime(year ?? dateTime.year, (month ?? dateTime.month) + 1, 1).add(Duration(days: -1)).day;
+    return DateTime(year ?? dateTime.year, (month ?? dateTime.month) + 1, 1)
+        .add(Duration(days: -1))
+        .day;
   }
 
   static String getNowDateTimeStr() => getDateStrByDateTime(DateTime.now());

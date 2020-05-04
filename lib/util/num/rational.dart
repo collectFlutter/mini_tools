@@ -101,7 +101,9 @@ class Rational implements Comparable<Rational> {
 
   @override
   bool operator ==(Object other) =>
-      other is Rational && numerator == other.numerator && denominator == other.denominator;
+      other is Rational &&
+      numerator == other.numerator &&
+      denominator == other.denominator;
 
   @override
   String toString() {
@@ -118,7 +120,8 @@ class Rational implements Comparable<Rational> {
 
     final fractionDigits = hasFinitePrecision ? scale : 10;
     var asString = toStringAsFixed(fractionDigits);
-    while (asString.contains('.') && (asString.endsWith('0') || asString.endsWith('.'))) {
+    while (asString.contains('.') &&
+        (asString.endsWith('0') || asString.endsWith('.'))) {
       asString = asString.substring(0, asString.length - 1);
     }
     return asString;
@@ -127,17 +130,21 @@ class Rational implements Comparable<Rational> {
   // implementation of Comparable
 
   @override
-  int compareTo(Rational other) => (numerator * other.denominator).compareTo(other.numerator * denominator);
+  int compareTo(Rational other) =>
+      (numerator * other.denominator).compareTo(other.numerator * denominator);
 
   // implementation of num
 
-  Rational operator +(Rational other) =>
-      Rational(numerator * other.denominator + other.numerator * denominator, denominator * other.denominator);
+  Rational operator +(Rational other) => Rational(
+      numerator * other.denominator + other.numerator * denominator,
+      denominator * other.denominator);
 
-  Rational operator -(Rational other) =>
-      Rational(numerator * other.denominator - other.numerator * denominator, denominator * other.denominator);
+  Rational operator -(Rational other) => Rational(
+      numerator * other.denominator - other.numerator * denominator,
+      denominator * other.denominator);
 
-  Rational operator *(Rational other) => Rational(numerator * other.numerator, denominator * other.denominator);
+  Rational operator *(Rational other) =>
+      Rational(numerator * other.numerator, denominator * other.denominator);
 
   Rational operator %(Rational other) {
     final remainder = this.remainder(other);
@@ -145,7 +152,8 @@ class Rational implements Comparable<Rational> {
     return remainder + (isNegative ? other.abs() : _r0);
   }
 
-  Rational operator /(Rational other) => Rational(numerator * other.denominator, denominator * other.numerator);
+  Rational operator /(Rational other) =>
+      Rational(numerator * other.denominator, denominator * other.numerator);
 
   /// Truncating division operator.
   ///
@@ -198,10 +206,12 @@ class Rational implements Comparable<Rational> {
   }
 
   /// Returns the greatest integer value no greater than this [num].
-  Rational floor() => isInteger ? truncate() : isNegative ? (truncate() - _r1) : truncate();
+  Rational floor() =>
+      isInteger ? truncate() : isNegative ? (truncate() - _r1) : truncate();
 
   /// Returns the least integer value that is no smaller than this [num].
-  Rational ceil() => isInteger ? truncate() : isNegative ? truncate() : (truncate() + _r1);
+  Rational ceil() =>
+      isInteger ? truncate() : isNegative ? truncate() : (truncate() + _r1);
 
   /// Returns the integer value obtained by discarding any fractional digits
   /// from this [num].
@@ -319,15 +329,19 @@ class Rational implements Comparable<Rational> {
       final lessThanOne = abs() < _r1;
       final tmp = (lessThanOne ? (abs() + _r1) : abs()) * mulRat;
       final tmpRound = tmp.round();
-      final intPart = (lessThanOne ? ((tmpRound ~/ mulRat) - _r1) : (tmpRound ~/ mulRat)).toBigInt();
-      final decimalPart = tmpRound.toBigInt().toString().substring(intPart.toString().length);
+      final intPart =
+          (lessThanOne ? ((tmpRound ~/ mulRat) - _r1) : (tmpRound ~/ mulRat))
+              .toBigInt();
+      final decimalPart =
+          tmpRound.toBigInt().toString().substring(intPart.toString().length);
       return '${isNegative ? '-' : ''}$intPart.$decimalPart';
     }
   }
 
   /// Converts a [num] to a string in decimal exponential notation with
   /// [fractionDigits] digits after the decimal point.
-  String toStringAsExponential([int fractionDigits]) => toDouble().toStringAsExponential(fractionDigits);
+  String toStringAsExponential([int fractionDigits]) =>
+      toDouble().toStringAsExponential(fractionDigits);
 
   /// Converts a [num] to a string representation with [precision] significant
   /// digits.
@@ -362,5 +376,6 @@ class Rational implements Comparable<Rational> {
   /// Returns [one] if the [exponent] equals `0`.
   ///
   /// The [exponent] must otherwise be positive.
-  Rational pow(int exponent) => Rational(numerator.pow(exponent), denominator.pow(exponent));
+  Rational pow(int exponent) =>
+      Rational(numerator.pow(exponent), denominator.pow(exponent));
 }

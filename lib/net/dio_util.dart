@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-
 import '../log/log_util.dart';
 
-class HttpUtil {
+class DioUtil {
   static Dio _dio;
 
   /// 创建dio对象，请求参数发生变化，需重新创建
@@ -17,13 +16,18 @@ class HttpUtil {
   }) {
     bool hasChangeOptions = _dio == null;
     // 请求类型
-    hasChangeOptions = hasChangeOptions || (contentType != null && _dio.options.contentType != contentType);
+    hasChangeOptions = hasChangeOptions ||
+        (contentType != null &&
+            _dio.options.contentType != contentType.subType);
     // base url
-    hasChangeOptions = hasChangeOptions || (baseUrl != null && _dio.options.baseUrl != baseUrl);
+    hasChangeOptions = hasChangeOptions ||
+        (baseUrl != null && _dio.options.baseUrl != baseUrl);
     // base url
-    hasChangeOptions = hasChangeOptions || (baseUrl != null && _dio.options.connectTimeout != connectTimeout);
+    hasChangeOptions = hasChangeOptions ||
+        (baseUrl != null && _dio.options.connectTimeout != connectTimeout);
     // base url
-    hasChangeOptions = hasChangeOptions || (baseUrl != null && _dio.options.receiveTimeout != receiveTimeout);
+    hasChangeOptions = hasChangeOptions ||
+        (baseUrl != null && _dio.options.receiveTimeout != receiveTimeout);
     // 请求头
     if (!hasChangeOptions && header != null) {
       if (_dio.options.headers == null) {
@@ -39,12 +43,11 @@ class HttpUtil {
       }
     }
     if (hasChangeOptions) {
-//      YU.log('重新创建dio对象');
       BaseOptions options = BaseOptions(
           baseUrl: baseUrl ?? '',
           connectTimeout: connectTimeout,
           receiveTimeout: receiveTimeout,
-          contentType: contentType,
+          contentType: contentType.subType,
           headers: header ?? {},
           responseType: ResponseType.plain);
       _dio = Dio(options);
@@ -57,7 +60,6 @@ class HttpUtil {
       cancelToken,
       ContentType contentType,
       String baseUrl,
-      bool printLog = true,
       Map<String, dynamic> header,
       int connectTimeout = 10000,
       int receiveTimeout = 100000}) async {
@@ -74,10 +76,9 @@ class HttpUtil {
         queryParameters: data,
         cancelToken: cancelToken,
       );
-      if (printLog)
-        L.d(' \n ======= Get请求成功! ======\n Url：${response.request.baseUrl}$url \n Header:$header \n Body:$data \n Response：$response');
+      L.d(' \n ======= Get请求成功! ======\n Url：${response.request.baseUrl}$url \n Header:$header \n Body:$data \n Response：$response');
     } on DioError catch (e) {
-      if (printLog) L.d("get请求错误 $e");
+      L.e("get请求错误 $e");
       return null;
     }
     return response.data;
@@ -87,7 +88,6 @@ class HttpUtil {
   static post(url,
       {data,
       options,
-      bool printLog = true,
       cancelToken,
       ContentType contentType,
       String baseUrl,
@@ -107,15 +107,12 @@ class HttpUtil {
         data: data,
         cancelToken: cancelToken,
       );
-      if (printLog)
-        L.d('======= Post请求成功 ======\n Url：${response.request.baseUrl}$url \n Header:$header \n Body:$data \n Response：$response');
+      L.d('======= Post请求成功 ======\n Url：${response.request.baseUrl}$url \n Header:$header \n Body:$data \n Response：$response');
     } on DioError catch (e) {
-      if (printLog)
-        L.d('======= <<!! post请求错误 !!>> ======\n Url：$baseUrl$url \n Header:$header \n Body:$data \n DioError: $e');
+      L.e('======= <<!! post请求错误 !!>> ======\n Url：$baseUrl$url \n Header:$header \n Body:$data \n DioError: $e');
       return null;
     } on Exception catch (e2) {
-      if (printLog)
-        L.d('======= <<!! post请求错误 !!>> ======\n Url：$baseUrl$url \n Header:$header \n Body:$data \n Exception: $e2');
+      L.e('======= <<!! post请求错误 !!>> ======\n Url：$baseUrl$url \n Header:$header \n Body:$data \n Exception: $e2');
       return null;
     }
     return response.data;

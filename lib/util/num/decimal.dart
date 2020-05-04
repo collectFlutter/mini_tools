@@ -1,9 +1,11 @@
 import 'rational.dart';
 
 class Decimal implements Comparable<Decimal> {
-  factory Decimal.parse(String value) => Decimal._fromRational(Rational.parse(value));
+  factory Decimal.parse(String value) =>
+      Decimal._fromRational(Rational.parse(value));
 
-  factory Decimal.fromInt(int value) => Decimal._fromRational(Rational(BigInt.from(value)));
+  factory Decimal.fromInt(int value) =>
+      Decimal._fromRational(Rational(BigInt.from(value)));
 
   Decimal._fromRational(this._rational);
 
@@ -20,7 +22,8 @@ class Decimal implements Comparable<Decimal> {
   bool get isInteger => _rational.isInteger;
 
   @override
-  bool operator ==(Object other) => other is Decimal && _rational == other._rational;
+  bool operator ==(Object other) =>
+      other is Decimal && _rational == other._rational;
 
   @override
   int get hashCode => _rational.hashCode;
@@ -35,26 +38,33 @@ class Decimal implements Comparable<Decimal> {
 
   // implementation of num
 
-  Decimal operator +(Decimal other) => Decimal._fromRational(_rational + other._rational);
+  Decimal operator +(Decimal other) =>
+      Decimal._fromRational(_rational + other._rational);
 
-  Decimal operator -(Decimal other) => Decimal._fromRational(_rational - other._rational);
+  Decimal operator -(Decimal other) =>
+      Decimal._fromRational(_rational - other._rational);
 
-  Decimal operator *(Decimal other) => Decimal._fromRational(_rational * other._rational);
+  Decimal operator *(Decimal other) =>
+      Decimal._fromRational(_rational * other._rational);
 
-  Decimal operator %(Decimal other) => Decimal._fromRational(_rational % other._rational);
+  Decimal operator %(Decimal other) =>
+      Decimal._fromRational(_rational % other._rational);
 
-  Decimal operator /(Decimal other) => Decimal._fromRational(_rational / other._rational);
+  Decimal operator /(Decimal other) =>
+      Decimal._fromRational(_rational / other._rational);
 
   /// Truncating division operator.
   ///
   /// The result of the truncating division [:a ~/ b:] is equivalent to
   /// [:(a / b).truncate():].
-  Decimal operator ~/(Decimal other) => Decimal._fromRational(_rational ~/ other._rational);
+  Decimal operator ~/(Decimal other) =>
+      Decimal._fromRational(_rational ~/ other._rational);
 
   Decimal operator -() => Decimal._fromRational(-_rational);
 
   /// Return the remainder from dividing this [num] by [other].
-  Decimal remainder(Decimal other) => Decimal._fromRational(_rational.remainder(other._rational));
+  Decimal remainder(Decimal other) =>
+      Decimal._fromRational(_rational.remainder(other._rational));
 
   /// Relational less than operator.
   bool operator <(Decimal other) => _rational < other._rational;
@@ -125,7 +135,8 @@ class Decimal implements Comparable<Decimal> {
   /// Clamps `this` to be in the range [lowerLimit]-[upperLimit]. The comparison
   /// is done using [compareTo] and therefore takes [:-0.0:] into account.
   Decimal clamp(Decimal lowerLimit, Decimal upperLimit) =>
-      Decimal._fromRational(_rational.clamp(lowerLimit._rational, upperLimit._rational));
+      Decimal._fromRational(
+          _rational.clamp(lowerLimit._rational, upperLimit._rational));
 
   /// Truncates this [num] to an integer and returns the result as an [int].
   int toInt() => _rational.toInt();
@@ -158,13 +169,16 @@ class Decimal implements Comparable<Decimal> {
 
   /// Converts a [num] to a string representation with [fractionDigits] digits
   /// after the decimal point.
-  String toStringAsFixed(int fractionDigits) => _rational.toStringAsFixed(fractionDigits);
+  String toStringAsFixed(int fractionDigits) =>
+      _rational.toStringAsFixed(fractionDigits);
 
   /// Converts a [num] to a string in decimal exponential notation with
   /// [fractionDigits] digits after the decimal point.
-  String toStringAsExponential([int fractionDigits]) => _rational.toStringAsExponential(fractionDigits);
+  String toStringAsExponential([int fractionDigits]) =>
+      _rational.toStringAsExponential(fractionDigits);
 
   /// Converts a [num] to a string representation with [precision] significant
   /// digits.
-  String toStringAsPrecision(int precision) => _rational.toStringAsPrecision(precision);
+  String toStringAsPrecision(int precision) =>
+      _rational.toStringAsPrecision(precision);
 }

@@ -1,3 +1,6 @@
+## 0.2.0
+update dio 3.0.9、log
+
 ## 0.1.3
 add tools.dart
 

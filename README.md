@@ -8,7 +8,7 @@ Dart 工具类
 dependencies:
   flutter:
     sdk: flutter
-  mini_tools: ^0.1.3
+  mini_tools: ^0.2.0
 ```
 
 ## 使用：

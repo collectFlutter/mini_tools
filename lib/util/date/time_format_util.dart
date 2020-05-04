@@ -178,16 +178,20 @@ class TimeFormatUtil {
   /// dateTime
   /// locDateTime: current time or schedule time.
   /// locale: output key.
-  static String formatByDateTime(DateTime dateTime, {DateTime locDateTime, String locale, DayFormat dayFormat}) {
-    int _locDateTime = (locDateTime == null ? null : locDateTime.millisecondsSinceEpoch);
-    return format(dateTime.millisecondsSinceEpoch, locTimeMillis: _locDateTime, locale: locale, dayFormat: dayFormat);
+  static String formatByDateTime(DateTime dateTime,
+      {DateTime locDateTime, String locale, DayFormat dayFormat}) {
+    int _locDateTime =
+        (locDateTime == null ? null : locDateTime.millisecondsSinceEpoch);
+    return format(dateTime.millisecondsSinceEpoch,
+        locTimeMillis: _locDateTime, locale: locale, dayFormat: dayFormat);
   }
 
   /// format time by millis.
   /// dateTime : millis.
   /// locDateTime: current time or schedule time. millis.
   /// locale: output key.
-  static String format(int timeMillis, {int locTimeMillis, String locale, DayFormat dayFormat}) {
+  static String format(int timeMillis,
+      {int locTimeMillis, String locale, DayFormat dayFormat}) {
     int _locTimeMillis = locTimeMillis ?? DateTime.now().millisecondsSinceEpoch;
     String _locale = locale ?? 'zh';
     TimelineInfo _info = _timelineInfoMap[_locale] ?? ZhInfo();
@@ -204,7 +208,8 @@ class TimeFormatUtil {
     }
 
     String timeline;
-    if (_info.customYesterday().isNotEmpty && DateUtil.isYesterdayByMillis(timeMillis, _locTimeMillis)) {
+    if (_info.customYesterday().isNotEmpty &&
+        DateUtil.isYesterdayByMillis(timeMillis, _locTimeMillis)) {
       return _getYesterday(timeMillis, _info, _dayFormat);
     }
 
@@ -219,7 +224,9 @@ class TimeFormatUtil {
     final num days = hours / 24;
     if (seconds < 120) {
       timeline = _info.oneMinute(1);
-      if (suffix != _info.suffixAfter() && _info.lessThanTenSecond().isNotEmpty && seconds < 10) {
+      if (suffix != _info.suffixAfter() &&
+          _info.lessThanTenSecond().isNotEmpty &&
+          seconds < 10) {
         timeline = _info.lessThanTenSecond();
         suffix = "";
       }
@@ -228,7 +235,8 @@ class TimeFormatUtil {
     } else if (hours < 24) {
       timeline = _info.hours(hours.round());
     } else {
-      if ((days.round() == 1 && _info.keepOneDay() == true) || (days.round() == 2 && _info.keepTwoDays() == true)) {
+      if ((days.round() == 1 && _info.keepOneDay() == true) ||
+          (days.round() == 2 && _info.keepTwoDays() == true)) {
         _dayFormat = DayFormat.Simple;
       }
       timeline = _formatDays(timeMillis, days.round(), _info, _dayFormat);
@@ -239,10 +247,13 @@ class TimeFormatUtil {
 
   /// get Yesterday.
   /// 获取昨天.
-  static String _getYesterday(int timeMillis, TimelineInfo info, DayFormat dayFormat) {
+  static String _getYesterday(
+      int timeMillis, TimelineInfo info, DayFormat dayFormat) {
     return info.customYesterday() +
         (dayFormat == DayFormat.Full
-            ? (" " + DateUtil.getDateStrByMs(timeMillis, format: DateFormat.HOUR_MINUTE))
+            ? (" " +
+                DateUtil.getDateStrByMs(timeMillis,
+                    format: DateFormat.HOUR_MINUTE))
             : "");
   }
 
@@ -251,23 +262,30 @@ class TimeFormatUtil {
   static String _getYear(int timeMillis, DayFormat dayFormat) {
     if (dayFormat != DayFormat.Simple) {
       return DateUtil.getDateStrByMs(timeMillis,
-          format: (dayFormat == DayFormat.Common ? DateFormat.YEAR_MONTH_DAY : DateFormat.YEAR_MONTH_DAY_HOUR_MINUTE));
+          format: (dayFormat == DayFormat.Common
+              ? DateFormat.YEAR_MONTH_DAY
+              : DateFormat.YEAR_MONTH_DAY_HOUR_MINUTE));
     }
     return "";
   }
 
   /// format Days.
-  static String _formatDays(int timeMillis, num days, TimelineInfo timelineInfo, DayFormat dayFormat) {
+  static String _formatDays(int timeMillis, num days, TimelineInfo timelineInfo,
+      DayFormat dayFormat) {
     String timeline;
     switch (dayFormat) {
       case DayFormat.Simple:
-        timeline = (days == 1 ? timelineInfo.oneDay(days.round()) : timelineInfo.days(days.round()));
+        timeline = (days == 1
+            ? timelineInfo.oneDay(days.round())
+            : timelineInfo.days(days.round()));
         break;
       case DayFormat.Common:
-        timeline = DateUtil.getDateStrByMs(timeMillis, format: DateFormat.MONTH_DAY);
+        timeline =
+            DateUtil.getDateStrByMs(timeMillis, format: DateFormat.MONTH_DAY);
         break;
       case DayFormat.Full:
-        timeline = DateUtil.getDateStrByMs(timeMillis, format: DateFormat.MONTH_DAY_HOUR_MINUTE);
+        timeline = DateUtil.getDateStrByMs(timeMillis,
+            format: DateFormat.MONTH_DAY_HOUR_MINUTE);
         break;
     }
     return timeline;
@@ -356,7 +374,8 @@ class TimeTool {
     this.endMouthTime = DateTime(year, month, maxMouthDays, 23, 59, 59, 999);
 
     // 本周
-    this.startWorkTime = startDayTime.subtract(Duration(days: (nowTime.weekday - 1)));
+    this.startWorkTime =
+        startDayTime.subtract(Duration(days: (nowTime.weekday - 1)));
     this.endWorkTime = endDayTime.add(Duration(days: (7 - nowTime.weekday)));
 
     // 上一个月
@@ -366,9 +385,11 @@ class TimeTool {
       lastYear = year - 1;
       lastMouth = 12;
     }
-    this.maxLastMouthDays = DateUtil.getDaysInMouth(year: lastYear, month: lastMouth);
+    this.maxLastMouthDays =
+        DateUtil.getDaysInMouth(year: lastYear, month: lastMouth);
     this.startLastMouthTime = DateTime(lastYear, lastMouth);
-    this.endLastMouthTime = DateTime(lastYear, lastMouth, maxLastMouthDays, 23, 59, 59, 999);
+    this.endLastMouthTime =
+        DateTime(lastYear, lastMouth, maxLastMouthDays, 23, 59, 59, 999);
 
     // 下个月
     int nextYear = year;
@@ -377,9 +398,11 @@ class TimeTool {
       nextYear = year + 1;
       nextMouth = 1;
     }
-    this.maxNextMouthDays = DateUtil.getDaysInMouth(year: nextYear, month: nextMouth);
+    this.maxNextMouthDays =
+        DateUtil.getDaysInMouth(year: nextYear, month: nextMouth);
     this.startNextMouthTime = DateTime(nextYear, nextMouth);
-    this.endNextMouthTime = DateTime(nextYear, nextMouth, maxNextMouthDays, 23, 59, 59, 999);
+    this.endNextMouthTime =
+        DateTime(nextYear, nextMouth, maxNextMouthDays, 23, 59, 59, 999);
   }
 }
 
@@ -392,7 +415,10 @@ class TimeModel {
   static List<TimeModel> getTimes() {
     TimeTool timeTool = TimeTool();
     return [
-      TimeModel(startTime: '1970-01-01 00:00:01', endTime: '3000-12-31 23:59:59', timeStr: '全部'),
+      TimeModel(
+          startTime: '1970-01-01 00:00:01',
+          endTime: '3000-12-31 23:59:59',
+          timeStr: '全部'),
       TimeModel(
           startTime: DateUtil.getDateStrByDateTime(timeTool.startDayTime),
           endTime: DateUtil.getDateStrByDateTime(timeTool.endDayTime),

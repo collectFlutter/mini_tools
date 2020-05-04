@@ -12,7 +12,8 @@ import 'package:uuid/uuid.dart';
 /// 文件操作类
 class FileUtil {
   /// RenderRepaintBoundary 内容转换为 Uint8List 数据
-  static Future<Uint8List> capturePng2List(RenderRepaintBoundary boundary) async {
+  static Future<Uint8List> capturePng2List(
+      RenderRepaintBoundary boundary) async {
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
@@ -56,13 +57,16 @@ class FileUtil {
     return await saveImg(result);
   }
 
-  static Future<File> saveImg(List<int> bytes, [String fileDir = 'compress']) async {
+  static Future<File> saveImg(List<int> bytes,
+      [String fileDir = 'compress']) async {
     // 获得应用临时目录路径 getTemporaryDirectory()
     // 获取应用的文档目录 getApplicationDocumentsDirectory();
     final Directory _directory = await getApplicationDocumentsDirectory();
-    final Directory _imageDirectory = await Directory('${_directory.path}/$fileDir/').create(recursive: true);
+    final Directory _imageDirectory =
+        await Directory('${_directory.path}/$fileDir/').create(recursive: true);
     //将图片暂时存入应用缓存目录
-    return File('${_imageDirectory.path}${Uuid().v1()}.jpg')..writeAsBytesSync(bytes);
+    return File('${_imageDirectory.path}${Uuid().v1()}.jpg')
+      ..writeAsBytesSync(bytes);
   }
 
   /// 压缩图片，返回存储的临时路径

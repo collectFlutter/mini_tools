@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
     <CLASSES>
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_macos-0.0.1+4" />
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_web-0.1.1+1" />
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/url_launcher-5.4.2" />
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider-1.6.5" />
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_macos-0.0.4" />
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_image_compress-0.6.5+1" />
-      <root url="file://D:/ProgramFiles/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.5" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher-5.4.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider-1.6.7" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_macos-0.0.1+4" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/url_launcher_web-0.1.1+1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path_provider_macos-0.0.4+1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.5" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/flutter_image_compress-0.6.5+1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

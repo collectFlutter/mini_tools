@@ -35,6 +35,8 @@ class L {
     }
   }
 
+
+
   /// Debug来表达调试信息
   static void d(Object object, {String tag}) {
     if (_level <= 2) {
@@ -43,7 +45,7 @@ class L {
   }
 
   /// Info来表达一些信息
-  static void l(Object object, {String tag}) {
+  static void i(Object object, {String tag}) {
     if (_level <= 3) {
       _print(tag, '【I】', object);
     }
@@ -65,10 +67,7 @@ class L {
 
   // https://github.com/Milad-Akarie/pretty_dio_logger
   static void _printMap(Map data,
-      {String tag,
-      int tabs = 1,
-      bool isListItem = false,
-      bool isLast = false}) {
+      {String tag, int tabs = 1, bool isListItem = false, bool isLast = false}) {
     final bool isRoot = tabs == 1;
     final initialIndent = _indent(tabs);
     tabs++;

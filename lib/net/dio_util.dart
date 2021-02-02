@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import '../log/log_util.dart';
+import 'response_model.dart';
 
 class DioUtil {
   static Dio _dio;
@@ -14,40 +15,32 @@ class DioUtil {
     int connectTimeout = 10000,
     int receiveTimeout = 100000,
   }) {
-    bool hasChangeOptions = _dio == null;
-    // 请求类型
-    hasChangeOptions = hasChangeOptions ||
+    bool flag = _dio == null ||
         (contentType != null &&
-            _dio.options.contentType != contentType.subType);
-    // base url
-    hasChangeOptions = hasChangeOptions ||
-        (baseUrl != null && _dio.options.baseUrl != baseUrl);
-    // base url
-    hasChangeOptions = hasChangeOptions ||
-        (baseUrl != null && _dio.options.connectTimeout != connectTimeout);
-    // base url
-    hasChangeOptions = hasChangeOptions ||
+            _dio.options.contentType != contentType.subType) ||
+        (baseUrl != null && _dio.options.baseUrl != baseUrl) ||
+        (baseUrl != null && _dio.options.connectTimeout != connectTimeout) ||
         (baseUrl != null && _dio.options.receiveTimeout != receiveTimeout);
     // 请求头
-    if (!hasChangeOptions && header != null) {
+    if (!flag && header != null) {
       if (_dio.options.headers == null) {
-        hasChangeOptions = true;
+        flag = true;
       } else {
         if (_dio.options.headers.length != header.length) {
-          hasChangeOptions = true;
+          flag = true;
         } else {
           _dio.options.headers.forEach((key, value) {
-            hasChangeOptions = hasChangeOptions || (header[key] != value);
+            flag = flag || (header[key] != value);
           });
         }
       }
     }
-    if (hasChangeOptions) {
+    if (flag) {
       BaseOptions options = BaseOptions(
           baseUrl: baseUrl ?? '',
           connectTimeout: connectTimeout,
           receiveTimeout: receiveTimeout,
-          contentType: contentType.subType,
+          contentType: contentType?.subType,
           headers: header ?? {},
           responseType: ResponseType.plain);
       _dio = Dio(options);
@@ -55,14 +48,16 @@ class DioUtil {
     return _dio;
   }
 
-  static Future get(url,
-      {data,
-      cancelToken,
-      ContentType contentType,
-      String baseUrl,
-      Map<String, dynamic> header,
-      int connectTimeout = 10000,
-      int receiveTimeout = 100000}) async {
+  /// [path]-请求的地址，[data]-请求的数据
+  static Future<ResponseModel> get(String path,
+      {Map<String, dynamic> data,
+        CancelToken cancelToken,
+        ContentType contentType,
+        String baseUrl,
+        Map<String, dynamic> header,
+        int connectTimeout = 10000,
+        int receiveTimeout = 100000}) async {
+    DateTime _startTime = DateTime.now();
     Response response;
     try {
       response = await _createDio(
@@ -72,29 +67,37 @@ class DioUtil {
         connectTimeout: connectTimeout,
         receiveTimeout: receiveTimeout,
       ).get(
-        url,
+        path,
         queryParameters: data,
         cancelToken: cancelToken,
       );
-      L.d(' \n ======= Get请求成功! ======\n Url：${response.request.baseUrl}$url \n Header:$header \n Body:$data \n Response：$response');
+      int duration = DateTime.now().difference(_startTime).inMilliseconds;
+      L.i('======= Get请求成功! ${(duration / 10000).toStringAsFixed(4)} 秒======');
+      L.i('Url：${response.request.baseUrl}$path \n Header:$header');
+      L.i('Body:$data');
+      L.i('Response：$response');
     } on DioError catch (e) {
-      L.e("get请求错误 $e");
-      return null;
+      L.e('======= <<!! Get请求错误 !!>> ======\n Url：$baseUrl$path \n Header:$header \n Body:$data \n DioError: $e');
+      return ResponseModel(false, null, e.type);
+    } on Exception catch (e2) {
+      L.e('======= <<!! Get请求错误 !!>> ======\n Url：$baseUrl$path \n Header:$header \n Body:$data \n Exception: $e2');
+      return ResponseModel(false, null, DioErrorType.DEFAULT);
     }
-    return response.data;
+    return ResponseModel(
+        response.statusCode == 200, response, DioErrorType.DEFAULT);
   }
 
-  /// [url]-请求的地址，[data]-请求的数据
-  static post(url,
+  /// [path]-请求的地址，[data]-请求的数据
+  static Future<ResponseModel> post(String path,
       {data,
-      options,
-      cancelToken,
-      ContentType contentType,
-      String baseUrl,
-      Map<String, dynamic> header,
-      int connectTimeout = 10000,
-      int receiveTimeout = 100000}) async {
+        CancelToken cancelToken,
+        ContentType contentType,
+        String baseUrl,
+        Map<String, dynamic> header,
+        int connectTimeout = 10000,
+        int receiveTimeout = 100000}) async {
     Response response;
+    DateTime _startTime = DateTime.now();
     try {
       response = await _createDio(
         contentType: contentType,
@@ -103,18 +106,43 @@ class DioUtil {
         connectTimeout: connectTimeout,
         receiveTimeout: receiveTimeout,
       ).post(
-        url,
+        path,
         data: data,
         cancelToken: cancelToken,
       );
-      L.d('======= Post请求成功 ======\n Url：${response.request.baseUrl}$url \n Header:$header \n Body:$data \n Response：$response');
+      int duration = DateTime.now().difference(_startTime).inMilliseconds;
+      L.i('======= Post请求成功! ${(duration / 10000).toStringAsFixed(4)} 秒======');
+      L.i('Url：$baseUrl$path \n Header:$header');
+      if (data != null && data is FormData) {
+        L.i('Body:${data.fields}');
+      } else {
+        L.i('Body:$data');
+      }
+      L.i('Response：$response');
     } on DioError catch (e) {
-      L.e('======= <<!! post请求错误 !!>> ======\n Url：$baseUrl$url \n Header:$header \n Body:$data \n DioError: $e');
-      return null;
+      int duration = DateTime.now().difference(_startTime).inMilliseconds;
+      L.e('======= <<!! post请求错误 !!>> ${(duration / 10000).toStringAsFixed(4)} 秒======');
+      L.e('Url：$baseUrl$path \n Header:$header');
+      if (data != null && data is FormData) {
+        L.e('Body:${data.fields}');
+      } else {
+        L.e('Body:$data');
+      }
+      L.e('DioError：$e');
+      return ResponseModel(false, null, e.type);
     } on Exception catch (e2) {
-      L.e('======= <<!! post请求错误 !!>> ======\n Url：$baseUrl$url \n Header:$header \n Body:$data \n Exception: $e2');
-      return null;
+      int duration = DateTime.now().difference(_startTime).inMilliseconds;
+      L.e('======= <<!! post请求错误 !!>> ${(duration / 10000).toStringAsFixed(4)} 秒======');
+      L.e('Url：$baseUrl$path \n Header:$header');
+      if (data != null && data is FormData) {
+        L.e('Body:${data.fields}');
+      } else {
+        L.e('Body:$data');
+      }
+      L.e('Exception：$e2');
+      return ResponseModel(false, null, DioErrorType.DEFAULT);
     }
-    return response.data;
+    return ResponseModel(
+        response.statusCode == 200, response, DioErrorType.DEFAULT);
   }
 }

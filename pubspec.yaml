@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   url_launcher: ^5.1.1
-  dio: ^3.0.9
+  dio: ^3.0.10
   flutter_image_compress: ^0.6.5+1
   path_provider: ^1.6.5
   uuid: ^2.0.4

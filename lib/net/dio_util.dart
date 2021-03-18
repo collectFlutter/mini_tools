@@ -16,8 +16,7 @@ class DioUtil {
     int receiveTimeout = 100000,
   }) {
     bool flag = _dio == null ||
-        (contentType != null &&
-            _dio.options.contentType != contentType.subType) ||
+        (contentType != null && _dio.options.contentType != contentType.subType) ||
         (baseUrl != null && _dio.options.baseUrl != baseUrl) ||
         (baseUrl != null && _dio.options.connectTimeout != connectTimeout) ||
         (baseUrl != null && _dio.options.receiveTimeout != receiveTimeout);
@@ -51,12 +50,12 @@ class DioUtil {
   /// [path]-请求的地址，[data]-请求的数据
   static Future<ResponseModel> get(String path,
       {Map<String, dynamic> data,
-        CancelToken cancelToken,
-        ContentType contentType,
-        String baseUrl,
-        Map<String, dynamic> header,
-        int connectTimeout = 10000,
-        int receiveTimeout = 100000}) async {
+      CancelToken cancelToken,
+      ContentType contentType,
+      String baseUrl,
+      Map<String, dynamic> header,
+      int connectTimeout = 10000,
+      int receiveTimeout = 100000}) async {
     DateTime _startTime = DateTime.now();
     Response response;
     try {
@@ -73,7 +72,7 @@ class DioUtil {
       );
       int duration = DateTime.now().difference(_startTime).inMilliseconds;
       L.i('======= Get请求成功! ${(duration / 10000).toStringAsFixed(4)} 秒======');
-      L.i('Url：${response.request.baseUrl}$path \n Header:$header');
+      L.i('Url：${response.realUri.host} \n Header:$header');
       L.i('Body:$data');
       L.i('Response：$response');
     } on DioError catch (e) {
@@ -81,21 +80,20 @@ class DioUtil {
       return ResponseModel(false, null, e.type);
     } on Exception catch (e2) {
       L.e('======= <<!! Get请求错误 !!>> ======\n Url：$baseUrl$path \n Header:$header \n Body:$data \n Exception: $e2');
-      return ResponseModel(false, null, DioErrorType.DEFAULT);
+      return ResponseModel(false, null, DioErrorType.other);
     }
-    return ResponseModel(
-        response.statusCode == 200, response, DioErrorType.DEFAULT);
+    return ResponseModel(response.statusCode == 200, response, DioErrorType.response);
   }
 
   /// [path]-请求的地址，[data]-请求的数据
   static Future<ResponseModel> post(String path,
       {data,
-        CancelToken cancelToken,
-        ContentType contentType,
-        String baseUrl,
-        Map<String, dynamic> header,
-        int connectTimeout = 10000,
-        int receiveTimeout = 100000}) async {
+      CancelToken cancelToken,
+      ContentType contentType,
+      String baseUrl,
+      Map<String, dynamic> header,
+      int connectTimeout = 10000,
+      int receiveTimeout = 100000}) async {
     Response response;
     DateTime _startTime = DateTime.now();
     try {
@@ -140,9 +138,8 @@ class DioUtil {
         L.e('Body:$data');
       }
       L.e('Exception：$e2');
-      return ResponseModel(false, null, DioErrorType.DEFAULT);
+      return ResponseModel(false, null, DioErrorType.other);
     }
-    return ResponseModel(
-        response.statusCode == 200, response, DioErrorType.DEFAULT);
+    return ResponseModel(response.statusCode == 200, response, DioErrorType.response);
   }
 }

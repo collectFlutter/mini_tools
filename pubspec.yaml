@@ -4,14 +4,14 @@ version: 0.2.0
 homepage: https://github.com/flutterme/mini_tools.git
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   url_launcher: ^6.0.2
-  dio: ^3.0.10
-  flutter_image_compress: ^1.0.0-nullsafety
+  dio: ^4.0.0-prev1
+  flutter_image_compress: ^0.7.0
   path_provider: ^2.0.1
   uuid: ^3.0.1
   shared_preferences: ^2.0.5

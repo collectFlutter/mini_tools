@@ -1,5 +1,9 @@
+## 0.2.2
+change url_launcher
+
 ## 0.2.1
-update dio 4.0.0-prev3、mini_logger
+update dio 3.0.10、mini_logger
+
 
 ## 0.2.0
 update dio 3.0.9、log
@@ -8,11 +12,11 @@ update dio 3.0.9、log
 add tools.dart
 
 ## 0.1.2
-修改README.md文件
+update README.md
 
 ## 0.1.1
-修复语法问题
+update code
 
 ## 0.1.0
-首次发版
+first commint
 

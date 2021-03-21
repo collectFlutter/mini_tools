@@ -1,6 +1,6 @@
 name: mini_tools
 description: A pure dart tool class, including string tools, network tools, etc.
-version: 0.2.1
+version: 0.2.2-null-safety
 homepage: https://github.com/flutterme/mini_tools.git
 
 environment:

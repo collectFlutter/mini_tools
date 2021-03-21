@@ -1,3 +1,6 @@
+## 0.2.1
+update dio 4.0.0-prev3、mini_logger
+
 ## 0.2.0
 update dio 3.0.9、log
 

@@ -96,7 +96,7 @@ class RegexUtil {
   static final String regexIp =
       "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
 
-  static final Map<String, String> cityMap = new Map();
+  static final Map<String, String> cityMap = {};
 
   ///Return whether input matches regex of simple mobile.
   static bool isMobileSimple(String input) {
@@ -163,11 +163,10 @@ class RegexUtil {
       ];
       if (cityMap.isEmpty) {
         List<String> list = ID_CARD_PROVINCE_DICT;
-        List<MapEntry<String, String>> mapEntryList = new List();
+        List<MapEntry<String, String>> mapEntryList = [];
         for (int i = 0, length = list.length; i < length; i++) {
           List<String> tokens = list[i].trim().split("=");
-          MapEntry<String, String> mapEntry =
-              new MapEntry(tokens[0], tokens[1]);
+          MapEntry<String, String> mapEntry = MapEntry(tokens[0], tokens[1]);
           mapEntryList.add(mapEntry);
         }
         cityMap.addEntries(mapEntryList);
@@ -212,6 +211,6 @@ class RegexUtil {
 
   static bool matches(String regex, String input) {
     if (input == null || input.isEmpty) return false;
-    return new RegExp(regex).hasMatch(input);
+    return RegExp(regex).hasMatch(input);
   }
 }

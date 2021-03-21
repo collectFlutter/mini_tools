@@ -206,12 +206,18 @@ class Rational implements Comparable<Rational> {
   }
 
   /// Returns the greatest integer value no greater than this [num].
-  Rational floor() =>
-      isInteger ? truncate() : isNegative ? (truncate() - _r1) : truncate();
+  Rational floor() => isInteger
+      ? truncate()
+      : isNegative
+          ? (truncate() - _r1)
+          : truncate();
 
   /// Returns the least integer value that is no smaller than this [num].
-  Rational ceil() =>
-      isInteger ? truncate() : isNegative ? truncate() : (truncate() + _r1);
+  Rational ceil() => isInteger
+      ? truncate()
+      : isNegative
+          ? truncate()
+          : (truncate() + _r1);
 
   /// Returns the integer value obtained by discarding any fractional digits
   /// from this [num].
@@ -244,8 +250,11 @@ class Rational implements Comparable<Rational> {
   /// Clamps the rational to be in the range [lowerLimit]-[upperLimit]. The
   /// comparison is done using [compareTo] and therefore takes [:-0.0:] into
   /// account.
-  Rational clamp(Rational lowerLimit, Rational upperLimit) =>
-      this < lowerLimit ? lowerLimit : this > upperLimit ? upperLimit : this;
+  Rational clamp(Rational lowerLimit, Rational upperLimit) => this < lowerLimit
+      ? lowerLimit
+      : this > upperLimit
+          ? upperLimit
+          : this;
 
   /// Truncates this [num] to an integer and returns the result as an [int].
   int toInt() => toBigInt().toInt();

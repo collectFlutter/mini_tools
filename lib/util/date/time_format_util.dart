@@ -410,6 +410,7 @@ class TimeModel {
   String startTime;
   String endTime;
   String timeStr;
+
   TimeModel({this.startTime, this.endTime, this.timeStr});
 
   static List<TimeModel> getTimes() {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class UsNumberTextInputFormatter extends TextInputFormatter {
   static const defaultDouble = 0.001;
+
   static double strToFloat(String str, [double defaultValue = defaultDouble]) {
     try {
       return double.parse(str);

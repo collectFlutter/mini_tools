@@ -7,7 +7,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 
 /// 文件操作类
 class FileUtil {
@@ -65,7 +64,7 @@ class FileUtil {
     final Directory _imageDirectory =
         await Directory('${_directory.path}/$fileDir/').create(recursive: true);
     //将图片暂时存入应用缓存目录
-    return File('${_imageDirectory.path}${Uuid().v1()}.jpg')
+    return File('${_imageDirectory.path}${DateTime.now().millisecondsSinceEpoch}.jpg')
       ..writeAsBytesSync(bytes);
   }
 

@@ -1,4 +1,7 @@
 ## 0.2.2
+add new util
+
+## 0.2.2
 change url_launcher
 
 ## 0.2.1

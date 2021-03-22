@@ -1,14 +1,11 @@
 import 'package:flutter/services.dart';
 
 class StringUtil {
-  /// 对象是否为空
-  static bool isEmpty(Object value) {
-    if (value == null) return true;
-    return value is String && value.isEmpty;
-  }
+  static bool isEmpty(var value) =>
+      value == null ||
+      (value is String && value.isEmpty) ||
+      (value is List && value.isEmpty);
 
-  /// 复制内容到剪切板
-  static clip(String content) {
-    Clipboard.setData(ClipboardData(text: content ?? ""));
-  }
+  static void clip(String value) =>
+      Clipboard.setData(ClipboardData(text: value ?? ""));
 }

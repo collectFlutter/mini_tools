@@ -64,7 +64,8 @@ class FileUtil {
     final Directory _imageDirectory =
         await Directory('${_directory.path}/$fileDir/').create(recursive: true);
     //将图片暂时存入应用缓存目录
-    return File('${_imageDirectory.path}${DateTime.now().millisecondsSinceEpoch}.jpg')
+    return File(
+        '${_imageDirectory.path}${DateTime.now().millisecondsSinceEpoch}.jpg')
       ..writeAsBytesSync(bytes);
   }
 

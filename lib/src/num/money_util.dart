@@ -26,7 +26,7 @@ class MoneyUtil {
 
   /// fen to yuan, format output.
   /// 分 转 元, format格式输出.
-  static String changeF2Y(int amount,
+  static String? changeF2Y(int? amount,
       {MoneyFormat format = MoneyFormat.NORMAL}) {
     if (amount == null) return null;
     String moneyTxt;
@@ -55,12 +55,12 @@ class MoneyUtil {
 
   /// fen str to yuan, format & unit  output.
   /// 分字符串 转 元, format 与 unit 格式 输出.
-  static String changeFStr2YWithUnit(String amountStr,
+  static String? changeFStr2YWithUnit(String? amountStr,
       {MoneyFormat format = MoneyFormat.NORMAL,
       MoneyUnit unit = MoneyUnit.NORMAL}) {
-    int amount;
+    int? amount;
     if (amountStr != null) {
-      double value = double.tryParse(amountStr);
+      double? value = double.tryParse(amountStr);
       amount = (value == null ? null : value.toInt());
     }
     return changeF2YWithUnit(amount, format: format, unit: unit);
@@ -68,7 +68,7 @@ class MoneyUtil {
 
   /// fen to yuan, format & unit  output.
   /// 分 转 元, format 与 unit 格式 输出.
-  static String changeF2YWithUnit(int amount,
+  static String? changeF2YWithUnit(int? amount,
       {MoneyFormat format = MoneyFormat.NORMAL,
       MoneyUnit unit = MoneyUnit.NORMAL}) {
     return _withUnit(changeF2Y(amount, format: format), unit);
@@ -76,27 +76,27 @@ class MoneyUtil {
 
   /// yuan, format & unit  output.(yuan is int,double,str).
   /// 元, format 与 unit 格式 输出.
-  static String changeYWithUnit(Object yuan, MoneyUnit unit,
-      {MoneyFormat format}) {
+  static String? changeYWithUnit(Object? yuan, MoneyUnit unit,
+      {MoneyFormat? format}) {
     if (yuan == null) return null;
-    String yuanTxt = yuan.toString();
+    String? yuanTxt = yuan.toString();
     if (format != null) {
-      int amount = changeY2F(yuan);
-      yuanTxt = changeF2Y(amount.toInt(), format: format);
+      int? amount = changeY2F(yuan);
+      yuanTxt = changeF2Y(amount?.toInt(), format: format);
     }
     return _withUnit(yuanTxt, unit);
   }
 
   /// yuan to fen.
   /// 元 转 分，
-  static int changeY2F(Object yuan) {
+  static int? changeY2F(Object? yuan) {
     if (yuan == null) return null;
     return NumUtil.multiplyDecStr(yuan.toString(), '100').toInt();
   }
 
   /// with unit.
   /// 拼接单位.
-  static String _withUnit(String moneyTxt, MoneyUnit unit) {
+  static String? _withUnit(String? moneyTxt, MoneyUnit unit) {
     if (moneyTxt == null || moneyTxt.isEmpty) return null;
     switch (unit) {
       case MoneyUnit.YUAN:

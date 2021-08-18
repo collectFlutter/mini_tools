@@ -10,15 +10,15 @@ import 'decimal.dart';
 /// Num Util.
 class NumUtil {
   /// The parameter [fractionDigits] must be an integer satisfying: `0 <= fractionDigits <= 20`.
-  static num getNumByValueStr(String valueStr, {int fractionDigits}) {
-    double value = double.tryParse(valueStr);
+  static num? getNumByValueStr(String valueStr, {int? fractionDigits}) {
+    double? value = double.tryParse(valueStr);
     return fractionDigits == null
         ? value
         : getNumByValueDouble(value, fractionDigits);
   }
 
   /// The parameter [fractionDigits] must be an integer satisfying: `0 <= fractionDigits <= 20`.
-  static num getNumByValueDouble(double value, int fractionDigits) {
+  static num? getNumByValueDouble(double? value, int fractionDigits) {
     if (value == null) return null;
     String valueStr = value.toStringAsFixed(fractionDigits);
     return fractionDigits == 0

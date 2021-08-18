@@ -12,11 +12,11 @@ import 'package:uuid/uuid.dart';
 /// 文件操作类
 class FileUtil {
   /// RenderRepaintBoundary 内容转换为 Uint8List 数据
-  static Future<Uint8List> capturePng2List(
+  static Future<Uint8List?> capturePng2List(
       RenderRepaintBoundary boundary) async {
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List pngBytes = byteData.buffer.asUint8List();
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List? pngBytes = byteData?.buffer.asUint8List();
     return pngBytes;
   }
 
@@ -70,7 +70,7 @@ class FileUtil {
   }
 
   /// 压缩图片，返回存储的临时路径
-  static Future<File> compressWithFile(
+  static Future<File?> compressWithFile(
     String imageFilePath, {
     int minWidth = 1920,
     int minHeight = 1080,
@@ -85,6 +85,7 @@ class FileUtil {
       minWidth: minWidth,
       rotate: rotate,
     );
-    return await saveImg(result);
+    if (result != null) return await saveImg(result);
+    return null;
   }
 }
